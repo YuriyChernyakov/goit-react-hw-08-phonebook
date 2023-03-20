@@ -5,6 +5,8 @@ import { ContList } from './contList/contList';
 import { SearchFilter } from './searchFilter/searchFilter';
 import css from './styles.module.css';
 
+const KEY_STORAGE = 'contacts';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -15,6 +17,19 @@ export class App extends Component {
     ],
     filter: ""
   };
+
+componentDidMount() {
+    if (localStorage.getItem(KEY_STORAGE)) {
+      this.setState({
+        contacts: JSON.parse(localStorage.getItem(KEY_STORAGE)),
+      });
+    }
+  }
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(KEY_STORAGE, JSON.stringify(this.state.contacts));
+    }
+  }
 
   handleInputChange = (event) => {
     this.setState({ name: event.currentTarget.value });
