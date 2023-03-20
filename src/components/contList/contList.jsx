@@ -2,6 +2,7 @@ import React from 'react';
 import { nanoid } from 'nanoid';
 import { ContactListEl } from '../contListEl/contListEl';
 import PropTypes from 'prop-types';
+import css from '../styles.module.css';
 
  
 
@@ -21,7 +22,7 @@ export const ContList = ({
 
   return (
     <div className="contacts">
-      <h3>Contacts</h3>
+      <p className={css.text}>Contacts</p>
       <ul>
         {filter ? renderSearchedItems() : renderDefaultItems()}
       </ul>

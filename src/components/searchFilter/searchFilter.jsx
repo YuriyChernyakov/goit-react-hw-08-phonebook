@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import css from '../styles.module.css';
 
 export const SearchFilter = ({
   title = 'Search field',
@@ -7,10 +8,10 @@ export const SearchFilter = ({
   onSearch
 }) => {
   return (
-    <>
-      <label>
-        <span>{title}</span>
-        <input
+    <div className={css.filter}>
+        <span className={css.textFind}>{title}</span>
+      <input
+          className={css.inpFind}
           onChange={onSearch}
           type="text"
           name="find"
@@ -19,8 +20,7 @@ export const SearchFilter = ({
           title="Name may contain only letters, apostrophe, dash and spaces."
           required
         />
-      </label>
-    </>
+    </div>
   );
 };
 

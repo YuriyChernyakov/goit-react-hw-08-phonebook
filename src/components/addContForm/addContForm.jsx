@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
+import css from '../styles.module.css';
 
 export const AddContForm = ({ inpChange, numChange, newArr }) => {
     return (
-        <div>
+        <div className={css.addCont}>
             <form>
-                <label>
+                <p className={css.lable}>
                     Name
+                </p>
                     <input
                         onChange={inpChange}
                         type="text"
@@ -14,10 +16,9 @@ export const AddContForm = ({ inpChange, numChange, newArr }) => {
                         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                         required
                     />
-                </label>
-                <br />
-                <label>
+                <p className={css.lable}>
                     Number
+                </p>
                     <input
                         onChange={numChange}
                         type="tel"
@@ -26,11 +27,10 @@ export const AddContForm = ({ inpChange, numChange, newArr }) => {
                         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                         required
                     />
-                </label>
             </form>
             <button type="submit" onClick={() => { newArr()}}>
                 Add contact
-            </button>
+                </button>
         </div>)
 };
 

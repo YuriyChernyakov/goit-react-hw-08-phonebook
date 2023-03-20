@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import css from '../styles.module.css';
 
 export const ContactListEl = ({
   delCont,
@@ -8,10 +9,12 @@ export const ContactListEl = ({
   id,
 }) => {
   return (
-    <div className="contact-item">
-      <p>{name} - <span>{number}</span></p>
-      <button type='button' onClick={()=>delCont(id)}>Delete</button>
-    </div>
+    <li className="contact-item">
+      <p className={css.textCont}>{name} - {number}
+        <button className={css.delBut} type='button' onClick={() => delCont(id)}>Delete</button>
+      </p>
+      
+    </li>
   );
 };
 

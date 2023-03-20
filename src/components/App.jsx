@@ -3,6 +3,7 @@ import { Component } from "react";
 import { AddContForm } from './addContForm/addContForm';
 import { ContList } from './contList/contList';
 import { SearchFilter } from './searchFilter/searchFilter';
+import css from './styles.module.css';
 
 export class App extends Component {
   state = {
@@ -67,8 +68,8 @@ export class App extends Component {
     } = this.state;
 
     return (
-      <div>
-        <p>Phonebook</p>
+      <div className={css.container}>
+        <p className={css.text}>Phonebook</p>
         <AddContForm
           newArr={addArr}
           numChange={handleNumChange}
