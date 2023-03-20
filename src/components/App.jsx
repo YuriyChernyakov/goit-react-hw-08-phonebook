@@ -1,8 +1,8 @@
+import { nanoid } from "nanoid";
 import { Component } from "react";
 import { AddContForm } from './addContForm/addContForm';
-// import { contList } from './contList/contList';
-// import { contListEl } from './contListEl/contListEl';
-// import { searchFilter } from './searchFilter/searchFilter';
+import { ContList } from './contList/contList';
+import { SearchFilter } from './searchFilter/searchFilter';
 
 export class App extends Component {
   state = {
@@ -12,8 +12,6 @@ export class App extends Component {
       { id: "id-3", name: "Eden Clements", number: "645-17-79" },
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" }
     ],
-    name: "",
-    number: "",
     filter: ""
   };
 
@@ -21,31 +19,41 @@ export class App extends Component {
     this.setState({ name: event.currentTarget.value });
   };
 
+
   handleNumChange = (event) => {
     this.setState({ number: event.currentTarget.value });
   };
-  
+
   addArr = () => {
+    const control = this.state.contacts.find(item => {
+      return this.state.name.toLowerCase().includes(item.name.toLowerCase())
+    })
+ console.log(control);
+    if (control) {
+      return alert("Warning")
+    }
+
     this.setState((prevState) => ({
       contacts: [
         ...prevState.contacts,
-        { name: this.state.name, number: this.state.number }
+        { name: this.state.name, number: this.state.number, id: nanoid(3)}
       ]
     }));
   };
 
-  newContacts = () => this.state.contacts.map((item) => {
-    return (
-      <li>
-      {item.name} - {item.number}
-    </li>
-    )
-  })
+  handleSearch = (e) => {
+    const { value } = e.target;
 
-  // handleFind = () => this.state.contacts.filter(({ name }) => {
-  //   console.log(name);
-  //   name.toLowerCase().includes(name)
-  // })
+    this.setState({
+      filter: value.toLowerCase()
+    })
+  }
+
+  deleteCont = (id) => {
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== id)
+    })
+    };
 
   render() {
     const {
@@ -53,29 +61,32 @@ export class App extends Component {
       handleNumChange,
       handleInputChange,
     } = this;
-    return (<div>
-          <p>Phonebook</p>
-      <AddContForm
-        newArr={addArr}
-        numChange={handleNumChange}
-        inpChange={handleInputChange} />
-          <p>Contacts</p>
-          <label>
-            Find contacts by name
-            <input
-              onChange={this.handleFind}
-              type="text"
-              name="find"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Name may contain only letters, apostrophe, dash and spaces."
-              required
-            />
-      </label>
-      <ul>
-        {this.newContacts()}
-        {/* {this.handleFind()} */}
-          </ul>
-        </div>
+    const {
+      contacts,
+      filter,
+    } = this.state;
+
+    return (
+      <div>
+        <p>Phonebook</p>
+        <AddContForm
+          newArr={addArr}
+          numChange={handleNumChange}
+          inpChange={handleInputChange}
+        />
+
+        <SearchFilter
+          title={'Find contacts by name'}
+          searchValue={filter}
+          onSearch={this.handleSearch}
+        />
+
+       <ContList
+         contacts={contacts}
+          filter={filter}
+          delCont={this.deleteCont}
+       />
+      </div>
     );
   }
 }

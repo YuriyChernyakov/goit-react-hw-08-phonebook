@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const AddContForm = ({ inpChange, numChange, newArr }) => {
     return (
         <div>
@@ -30,4 +32,10 @@ export const AddContForm = ({ inpChange, numChange, newArr }) => {
                 Add contact
             </button>
         </div>)
+};
+
+AddContForm.propTypes = {
+    inpChange: PropTypes.func.isRequired,
+    numChange: PropTypes.func.isRequired,
+    newArr: PropTypes.func.isRequired
 };
