@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import css from '../styles.module.css';
 
-export const AddContForm = ({ inpChange, numChange, newArr }) => {
+export default function AddContForm ({ inpChange, numChange, newArr }) {
     return (
         <div className={css.addCont}>
             <form>
@@ -28,7 +28,7 @@ export const AddContForm = ({ inpChange, numChange, newArr }) => {
                         required
                     />
             </form>
-            <button type="submit" onClick={() => { newArr()}}>
+            <button type="submit" onClick={newArr}>
                 Add contact
                 </button>
         </div>)

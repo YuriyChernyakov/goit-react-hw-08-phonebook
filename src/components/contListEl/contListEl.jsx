@@ -1,17 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import css from '../styles.module.css';
 
-export const ContactListEl = ({
-  delCont,
-  name,
-  number,
-  id,
-}) => {
+export default function ContactListEl ({ delCont, name, number, id }) {
   return (
     <li className="contact-item">
       <p className={css.textCont}>{name} - {number}
-        <button className={css.delBut} type='button' onClick={() => delCont(id)}>Delete</button>
+        <button className={css.delBut} type='button' onClick={delCont(id)}>Delete</button>
       </p>
       
     </li>

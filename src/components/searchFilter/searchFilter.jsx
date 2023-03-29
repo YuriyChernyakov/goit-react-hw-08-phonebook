@@ -1,12 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import css from '../styles.module.css';
 
-export const SearchFilter = ({
-  title = 'Search field',
-  searchValue = '',
-  onSearch
-}) => {
+export default function SearchFilter ({ title = 'Search field', searchValue = '', onSearch }) {
   return (
     <div className={css.filter}>
         <span className={css.textFind}>{title}</span>

@@ -1,16 +1,12 @@
-import React from 'react';
 import { nanoid } from 'nanoid';
-import { ContactListEl } from '../contListEl/contListEl';
+import ContactListEl from '../contListEl/contListEl';
 import PropTypes from 'prop-types';
 import css from '../styles.module.css';
 
  
 
-export const ContList = ({
-  delCont,
-  contacts = [],
-  filter
-}) => {
+export default function ContList ({ delCont, contacts = [], filter }) {
+  
   const renderSearchedItems = () => {
     return contacts.filter((item) => item.name.toLowerCase().includes(filter))
       .map((item) => <ContactListEl deleCont={delCont} key={nanoid(3)} {...item} />)
