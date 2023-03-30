@@ -5,7 +5,7 @@ export default function ContactListEl ({ delCont, name, number, id }) {
   return (
     <li className="contact-item">
       <p className={css.textCont}>{name} - {number}
-        <button className={css.delBut} type='button' onClick={delCont(id)}>Delete</button>
+        <button className={css.delBut} type='button' onClick={() => delCont(id)}>Delete</button>
       </p>
       
     </li>
@@ -14,7 +14,7 @@ export default function ContactListEl ({ delCont, name, number, id }) {
 
 ContactListEl.propTypes = {
     delCont: PropTypes.func,
-    number: PropTypes.number.isRequired,
+    number: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired
 };

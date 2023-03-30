@@ -28,7 +28,7 @@ export default function AddContForm ({ inpChange, numChange, newArr }) {
                         required
                     />
             </form>
-            <button type="submit" onClick={newArr}>
+            <button type="submit" onClick={() => newArr()}>
                 Add contact
                 </button>
         </div>)

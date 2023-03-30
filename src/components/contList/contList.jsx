@@ -28,6 +28,6 @@ export default function ContList ({ delCont, contacts = [], filter }) {
 
 ContList.propTypes = {
     delCont: PropTypes.func.isRequired,
-    filter: PropTypes.func.isRequired,
-    contacts: PropTypes.string.isRequired
+    filter: PropTypes.string.isRequired,
+    // contacts: PropTypes.array,
 };
