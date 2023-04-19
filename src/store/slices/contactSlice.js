@@ -1,40 +1,59 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, deleteContact, addContact } from 'store/mockAPI';
+
+const handlePending = state => {
+  state.isLoading = true;
+  state.error = null;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 const contacts = createSlice({
   name: 'contacts',
   initialState: {
-    contacts: [
-      {
-        id: 'id-1',
-        name: 'Rosie Simpsonttt',
-        number: '459-12-56',
-      },
-      {
-        id: 'id-2',
-        name: 'Hermione Kline',
-        number: '443-89-12',
-      },
-      {
-        id: 'id-3',
-        name: 'Eden Clements',
-        number: '645-17-79',
-      },
-      {
-        id: 'id-4',
-        name: 'Annie Copeland',
-        number: '227-91-26',
-      },
-    ],
+    contacts: [],
+    isLoading: false,
+    error: null,
   },
-  reducers: {
-    setContacts: (state, action) => {
-      const data = [...state.contacts, action.payload];
-      state.contacts = data;
-    },
-    deleteContacts: (state, action) => {
+  // reducers: {
+  //   setContacts: (state, action) => {
+  //     const data = [...state.contacts, action.payload];
+  //     state.contacts = data;
+  //   },
+  //   deleteContacts: (state, action) => {
+  //     state.contacts = action.payload;
+  //   },
+  // },
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [fetchContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
       state.contacts = action.payload;
     },
-  },
+    [fetchContacts.rejected]: handleRejected,
+    
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      const index = state.contacts.findIndex(task => task.id === action.payload.id);
+      state.contacts.splice(index, 1);
+      state.isLoading = false;
+      state.error = null;
+
+    },
+    [deleteContact.rejected]: handleRejected,
+    
+    [addContact.pending]: handlePending,
+
+    [addContact.fulfilled](state, action) {
+      state.contacts.unshift(action.payload)
+      state.isLoading = false;
+      state.error = null;
+    },
+    [addContact.rejected]: handleRejected,},
 });
 
 export const {

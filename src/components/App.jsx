@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddContForm from './addContForm/addContForm';
 import ContList from './contList/contList';
 import SearchFilter from './searchFilter/searchFilter';
 import css from './styles.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setContacts, deleteContacts } from 'store/slices/contactSlice';
 import { setFilter } from 'store/slices/filterSlice';
+import { fetchContacts, deleteContact, addContact } from 'store/mockAPI';
 
 export default function App() {
   const [name, setName] = useState('');
@@ -14,6 +14,10 @@ export default function App() {
   const { contacts } = useSelector((state) => state.contacts);
   const {filter} = useSelector((state) => state.filter);
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch])
   
   const handleInputChange = (event) => {
     setName(event.currentTarget.value );
@@ -33,7 +37,7 @@ export default function App() {
     }
 
     const newContact = {id: nanoid(3), name, number}
-    dispatch(setContacts(newContact))
+    dispatch(addContact(newContact))
   }
 
   const handleSearch = (e) => {
@@ -45,9 +49,7 @@ export default function App() {
   };
 
   const deleteCont = (id) => {
-    dispatch(deleteContacts(
-      contacts.filter(contact => contact.id !== id),
-    ));
+    dispatch(deleteContact(id));
   };
 
   return (
