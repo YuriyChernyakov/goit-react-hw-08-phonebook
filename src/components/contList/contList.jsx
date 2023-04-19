@@ -5,7 +5,7 @@ import css from '../styles.module.css';
 
  
 
-export default function ContList ({ delCont, contacts = [], filter }) {
+export default function ContList({ delCont, contacts = [], filter }) {
   
   const renderSearchedItems = () => {
     return contacts.filter((item) => item.name.toLowerCase().includes(filter))
@@ -29,5 +29,5 @@ export default function ContList ({ delCont, contacts = [], filter }) {
 ContList.propTypes = {
     delCont: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired,
-    // contacts: PropTypes.array,
+    contacts: PropTypes.array,
 };
