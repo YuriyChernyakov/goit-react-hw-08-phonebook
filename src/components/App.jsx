@@ -1,77 +1,57 @@
-import { nanoid } from 'nanoid';
-import { useState, useEffect } from 'react';
-import AddContForm from './addContForm/addContForm';
-import ContList from './contList/contList';
-import SearchFilter from './searchFilter/searchFilter';
-import css from './styles.module.css';
+import { GlobalStyle } from './GlobalStyle';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from 'store/slices/filterSlice';
-import { fetchContacts, deleteContact, addContact } from 'store/mockAPI';
+import { useEffect, lazy } from 'react';
+import { refreshUser } from 'Redux/Authorization/operations';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { ToastContainer } from 'react-toastify';
+import { Spiner } from 'pages/ContactList/ContactList.styled';
 
-export default function App() {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const { contacts } = useSelector((state) => state.contacts);
-  const {filter} = useSelector((state) => state.filter);
+const Register = lazy(() => import('../pages/Register/Register'));
+const Home = lazy(() => import('../pages/Home/Home'));
+const Login = lazy(() => import('../pages/Login/Login'));
+const Contactlist = lazy(() => import('../pages/ContactList/ContactList'));
+
+export const App = () => {
   const dispatch = useDispatch();
-  
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch])
-  
-  const handleInputChange = (event) => {
-    setName(event.currentTarget.value );
-  };
-
-  const handleNumChange = (event) => {
-    setNumber(event.currentTarget.value );
-  };
-
-  const addArr = () => {
-    const control = contacts.find(item => {
-      return item.name.toLowerCase().includes(name.toLowerCase())
-    })
-
-    if (control) {
-      return alert('Warning');
-    }
-
-    const newContact = {id: nanoid(3), name, number}
-    dispatch(addContact(newContact))
-  }
-
-  const handleSearch = (e) => {
-    const { value } = e.target;
-
-    dispatch(setFilter(
-      value.toLowerCase(),
-    ));
-  };
-
-  const deleteCont = (id) => {
-    dispatch(deleteContact(id));
-  };
-
-  return (
-    <div className={css.container}>
-      <p className={css.text}>Phonebook</p>
-      <AddContForm
-        newArr={addArr}
-        numChange={handleNumChange}
-        inpChange={handleInputChange}
-      />
-
-      <SearchFilter
-        title={'Find contacts by name'}
-        searchValue={filter}
-        onSearch={handleSearch}
-      />
-
-      <ContList
-        contacts={contacts}
-        filter={filter}
-        delCont={deleteCont}
-      />
-    </div>
+    dispatch(refreshUser());
+  }, [dispatch]);
+  const { isRefreshing } = useSelector(state => state.auth);
+  return !isRefreshing ? (
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute component={<Contactlist />} redirectTo="/login" />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute redirectTo="/contacts" component={<Login />} />
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                redirectTo="/contacts"
+                component={<Register />}
+              />
+            }
+          />
+        </Route>
+      </Routes>
+      <ToastContainer />
+      <GlobalStyle />
+    </>
+  ) : (
+    <Spiner />
   );
-}
+};
